@@ -1,0 +1,22 @@
+.home--page {
+  width: 80vw;
+  display: flex;
+  flex-direction: column;
+}
+
+table {
+  width: 80vw;
+}
+
+tr,
+td {
+  background-color: darkgrey;
+  text-align: center;
+  height: 3rem;
+}
+
+.filter {
+  margin-right: 1rem;
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
