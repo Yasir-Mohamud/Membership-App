@@ -1,0 +1,10 @@
+.navbar {
+  width: 100vw;
+  height: 70px;
+  background-color: #ffffff;
+  border: solid 2px black;
+  font-size: 24pt;
+  line-height: 70px;
+  text-align: center;
+  margin-bottom: 50px;
+}
