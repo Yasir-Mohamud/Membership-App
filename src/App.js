@@ -13,7 +13,7 @@ export default function App() {
     <div className="App">
       <Navbar />
       <Routes>
-        <Route path="/homer" element={<HomePage />} />
+        <Route path="/" element={<HomePage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/login" element={<LoginPage />} />
       </Routes>
