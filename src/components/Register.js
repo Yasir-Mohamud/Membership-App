@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import "./Register.css";
 import axios from "axios";
-import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
+import { Hidden } from "@mui/material";
 
 export default function Register() {
   const [registerUser, setRegisterUser] = useState({
@@ -12,13 +11,13 @@ export default function Register() {
     password: "",
     confirmPassword: "",
   });
-  const [show, setShow] = useState(false);
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
   const [isRegistered, setIsRegistered] = useState(false);
-  const [message, setMessage] = useState(" You are registered");
+
   const [error, setError] = useState("");
+  const [emailError, setEmailError] = useState("");
+
+  let visi = "";
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -37,6 +36,7 @@ export default function Register() {
     if (registerUser.password !== registerUser.confirmPassword) {
       return setError("Your Password and ConfirmPassword DO NOT match !");
     }
+
     // get all the users info
     const newUser = {
       name: registerUser.name,
@@ -48,23 +48,40 @@ export default function Register() {
     console.log(newUser);
 
     // axios does a post to the backend and adds the newUser to our db
-    axios.post("http://localhost:4000/users/add", newUser).then((response) => {
-      setIsRegistered((prev) => !prev);
-      console.log(response.data);
-    });
+    axios
+      .post("http://localhost:4000/users/add", newUser)
+      .then((response) => {
+        setIsRegistered((prev) => !prev);
+        setRegisterUser({
+          name: "",
+          email: "",
+          phoneNumber: "",
+          password: "",
+          confirmPassword: "",
+        });
+        setError("");
+        console.log(response.data);
+      })
+      .catch((err) =>
+        setEmailError("Email in use , please pick another email")
+      );
     // set the setRegisterUser to have empty string to make the form as well as allow others to register
-    setRegisterUser({
-      name: "",
-      email: "",
-      phoneNumber: "",
-      password: "",
-      confirmPassword: "",
-    });
-    setError("");
+    isRegistered ? (visi = "visible") : (visi = "hidden");
   }
 
   return (
     <>
+      {isRegistered ? (
+        <div className="modal">
+          <p> You have been successfully registered !!</p>
+        </div>
+      ) : emailError.length > 0 ? (
+        <div className="error-modal" style={{ visibility: { visi } }}>
+          <p> {emailError}</p>
+        </div>
+      ) : (
+        emailError
+      )}
       <div className="register--form">
         {error && <p style={{ color: "red" }}> {error}</p>}
 
@@ -82,7 +99,6 @@ export default function Register() {
             value={registerUser.name}
             onChange={handleChange}
             placeholder=" example : John Doe"
-            pattern=""
             required
           />
           <br />
@@ -113,7 +129,7 @@ export default function Register() {
             name="phoneNumber"
             value={registerUser.phoneNumber}
             onChange={handleChange}
-            pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
+            pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
             required
           />
           <br />
@@ -128,6 +144,8 @@ export default function Register() {
             name="password"
             value={registerUser.password}
             onChange={handleChange}
+            placeholder=" example : @Test123"
+            pattern="(?=^.{8,}$)(?=.*\d)(?=.*[!@#$%^&*]+)(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$"
             required
           />
           <br />
@@ -145,25 +163,8 @@ export default function Register() {
             required
           />
           <br />
-          <button className="form--button" onClick={handleShow}>
-            {" "}
-            REGISTER
-          </button>
+          <button className="form--button">REGISTER</button>
         </form>
-        <Modal show={show} onHide={handleClose}>
-          <Modal.Header closeButton>
-            <Modal.Title>Modal heading</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={handleClose}>
-              Close
-            </Button>
-            <Button variant="primary" onClick={handleClose}>
-              Save Changes
-            </Button>
-          </Modal.Footer>
-        </Modal>
       </div>
     </>
   );
