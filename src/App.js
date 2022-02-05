@@ -8,21 +8,16 @@ import { Route, Routes } from "react-router-dom";
 import axios from "axios";
 
 export default function App() {
-  const { user, setUser } = useState({
-    name: "",
-    email: "",
-    phoneNumber: "",
-    password: "",
-    isActive: false,
-    date: new Date(),
-  });
+  const members = [];
+  console.log(members);
+
   return (
     <div className="App">
       <Navbar />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/register" element={<RegisterPage />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/login" element={<Login members={members} />} />
       </Routes>
     </div>
   );

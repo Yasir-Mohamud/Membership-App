@@ -3,7 +3,7 @@ import "./Login.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-export default function Login() {
+export default function Login(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -45,6 +45,7 @@ export default function Login() {
             };
           });
           setError("");
+          props.members.push(user);
         } else {
           setError("Login failed. Email and Password do not match");
         }
