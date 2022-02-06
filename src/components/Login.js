@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Login.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -28,41 +28,39 @@ export default function Login(props) {
     }
   }
 
+  useEffect(() => {
+    axios
+      .post("http://localhost:4000/users/update/" + email, user)
+      .then((response) => {
+        console.log(response.data);
+        document.getElementById("loginButton").setAttribute("disabled", true);
+      });
+  }, [user.isActive]);
+
   function handleSubmit(e) {
     e.preventDefault();
 
-    axios
-      .get("http://localhost:4000/users/" + email)
-      .then((res) => {
-        if (res.data.email === email && res.data.password === password) {
-          setUser((prev) => {
-            return {
-              ...prev,
-              name: res.data.name,
-              email: res.data.email,
-              phoneNumber: res.data.phoneNumber,
-              password: res.data.password,
-              isActive: true,
-            };
-          });
+    axios.get("http://localhost:4000/users/" + email).then((res) => {
+      if (res.data.email === email && res.data.password === password) {
+        setUser((prev) => {
+          return {
+            ...prev,
+            name: res.data.name,
+            email: res.data.email,
+            phoneNumber: res.data.phoneNumber,
+            password: res.data.password,
+            isActive: true,
+          };
+        });
+        setError("");
+      } else {
+        setError("Login failed. Email and Password do not match");
+      }
+    });
 
-          setError("");
-        } else {
-          setError("Login failed. Email and Password do not match");
-        }
-      })
-      .catch((err) =>
-        setError("Login failed. Email and Password do not match")
-      );
-
-    if (user.isActive) {
-      axios
-        .post("http://localhost:4000/users/update/" + email, user)
-        .then((response) => console.log(response.data))
-        .catch((err) => console.log(`ERROR ${err}`));
-
-      document.getElementById("loginButton").setAttribute("disabled", true);
-    }
+    //   .catch((err) =>
+    //     setError("Login failed. Email and Password do not match")
+    //   );
   }
 
   function handleClick() {

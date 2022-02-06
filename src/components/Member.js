@@ -1,7 +1,11 @@
 import React from "react";
 
 export default function Member(props) {
-  const date = new Date().toString().slice(3, 24);
+  const date = new Date().toDateString();
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+
+  console.log(tomorrow);
   console.log(date);
   console.log(props.member);
   return (
