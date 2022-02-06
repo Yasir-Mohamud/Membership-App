@@ -1,15 +1,15 @@
 import React from "react";
 
-export default function Member() {
+export default function Member(props) {
   const date = new Date().toString().slice(3, 24);
   console.log(date);
-
+  console.log(props.member);
   return (
     <tr>
-      <td> Yasir </td>
-      <td> Yasir@email.com </td>
-      <td> 11-11-1111 </td>
-      <td> ACTIVE </td>
+      <td> {props.member.name} </td>
+      <td> {props.member.email} </td>
+      <td> {props.member.phoneNumber} </td>
+      <td> {props.member.isActive ? " ACTIVE " : " UNACTIVE"} </td>
       <td> {date} </td>
     </tr>
   );

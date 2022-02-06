@@ -10,10 +10,9 @@ export default function Register() {
     phoneNumber: "",
     password: "",
     confirmPassword: "",
+    isActive: false,
   });
-
   const [isRegistered, setIsRegistered] = useState(false);
-
   const [error, setError] = useState("");
   const [emailError, setEmailError] = useState("");
 
@@ -43,6 +42,7 @@ export default function Register() {
       email: registerUser.email,
       phoneNumber: registerUser.phoneNumber,
       password: registerUser.password,
+      isActive: false,
     };
 
     console.log(newUser);
@@ -58,6 +58,7 @@ export default function Register() {
           phoneNumber: "",
           password: "",
           confirmPassword: "",
+          isActive: false,
         });
         setError("");
         console.log(response.data);

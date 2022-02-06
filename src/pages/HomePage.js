@@ -1,8 +1,22 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Member from "../components/Member";
 import "./HomePage.css";
+import axios from "axios";
 
 export default function HomePage() {
+  const [members, setMembers] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:4000/users/")
+      .then((res) => setMembers(res.data))
+      .catch((err) => console.log(`ERROR ${err}`));
+  }, []);
+
+  const membersTable = members.map((member) => {
+    return <Member key={member._id} member={member} />;
+  });
+
   return (
     <div className="home--page">
       <h1> MEMBERS OF THE HOLY GRAIL ASSOCIATION</h1>
@@ -25,9 +39,7 @@ export default function HomePage() {
             <th> DATE </th>
           </tr>
         </thead>
-        <tbody>
-          <Member />
-        </tbody>
+        <tbody>{membersTable}</tbody>
       </table>
     </div>
   );

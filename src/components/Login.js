@@ -7,6 +7,7 @@ export default function Login(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+
   const navigate = useNavigate();
   const [user, setUser] = useState({
     name: "",
@@ -44,8 +45,8 @@ export default function Login(props) {
               isActive: true,
             };
           });
+
           setError("");
-          props.members.push(user);
         } else {
           setError("Login failed. Email and Password do not match");
         }
@@ -53,6 +54,15 @@ export default function Login(props) {
       .catch((err) =>
         setError("Login failed. Email and Password do not match")
       );
+
+    if (user.isActive) {
+      axios
+        .post("http://localhost:4000/users/update/" + email, user)
+        .then((response) => console.log(response.data))
+        .catch((err) => console.log(`ERROR ${err}`));
+
+      document.getElementById("loginButton").setAttribute("disabled", true);
+    }
   }
 
   function handleClick() {
@@ -65,6 +75,11 @@ export default function Login(props) {
           <p style={{ color: "red", fontSize: "14pt", marginTop: "10px" }}>
             {" "}
             {error}
+          </p>
+        )}
+        {user.isActive && (
+          <p style={{ color: "green", fontSize: "14pt", marginTop: "10px" }}>
+            You have been successfully logged in!
           </p>
         )}
         <form onSubmit={handleSubmit}>
@@ -91,7 +106,7 @@ export default function Login(props) {
             required
           />{" "}
           <br />
-          <button> LOGIN</button>
+          <button id="loginButton"> LOGIN</button>
           <br />
           <span> Dont have an account ?</span>
           <button
