@@ -1,21 +1,12 @@
 const router = require("express").Router();
 
 let User = require("../models/user.model");
+const upload = require("../middleware/upload");
 
 // creates user
-router.route("/add").post((req, res) => {
-  const newUser = new User({
-    name: req.body.name,
-    email: req.body.email,
-    password: req.body.password,
-    phoneNumber: req.body.phoneNumber,
-    isActive: req.body.isActive,
-  });
-
-  newUser
-    .save()
-    .then(() => res.json("User Added"))
-    .catch((err) => res.status(400).json("Error : " + err));
+router.route("/add").post(upload.single("image"), (req, res) => {
+  console.log(`req.body ${req.body}`);
+  console.log(`req.file ${req.file}`);
 });
 
 // gets user by email
@@ -40,6 +31,7 @@ router.route("/update/:email").post((req, res) => {
       user.password = req.body.password;
       user.phoneNumber = req.body.phoneNumber;
       user.isActive = req.body.isActive;
+
       user
         .save()
         .then(() => res.json("User updated!"))

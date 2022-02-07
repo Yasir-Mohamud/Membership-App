@@ -4,6 +4,7 @@ import Navbar from "./components/Navbar";
 import Login from "./components/Login";
 import RegisterPage from "./pages/RegisterPage";
 import HomePage from "./pages/HomePage";
+import Upload from "./components/UploadImage.js";
 import { Route, Routes } from "react-router-dom";
 
 export default function App() {
@@ -14,6 +15,7 @@ export default function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/upload" element={<Upload />} />
       </Routes>
     </div>
   );

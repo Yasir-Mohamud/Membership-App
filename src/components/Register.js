@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./Register.css";
 import axios from "axios";
-import { Hidden } from "@mui/material";
+import { Link } from "react-router-dom";
 
 export default function Register() {
   const [registerUser, setRegisterUser] = useState({
@@ -11,6 +11,7 @@ export default function Register() {
     password: "",
     confirmPassword: "",
     isActive: false,
+    image: null,
   });
   const [isRegistered, setIsRegistered] = useState(false);
   const [error, setError] = useState("");
@@ -21,21 +22,33 @@ export default function Register() {
   function handleChange(e) {
     const { name, value } = e.target;
 
-    return setRegisterUser((prev) => {
-      return {
-        ...prev,
-        [name]: value,
-      };
-    });
+    return setRegisterUser((prev) => ({ ...prev, [name]: value }));
+  }
+
+  //On file select (from the pop up)
+  function onFileChange(event) {
+    // Update the state
+    return setRegisterUser((prev) => ({
+      ...prev,
+      image: event.target.files[0],
+    }));
   }
 
   function handleSubmit(e) {
     e.preventDefault();
-
+    console.log(registerUser.image);
     if (registerUser.password !== registerUser.confirmPassword) {
       return setError("Your Password and ConfirmPassword DO NOT match !");
     }
 
+    const formData = new FormData();
+
+    formData.append("name", registerUser.name);
+    formData.append("email", registerUser.email);
+    formData.append("phoneNumber", registerUser.phoneNumber);
+    formData.append("image", registerUser.image, registerUser.image.name);
+    formData.append("password", registerUser.password);
+    formData.append("isActive", registerUser.isActive);
     // get all the users info
     const newUser = {
       name: registerUser.name,
@@ -43,25 +56,28 @@ export default function Register() {
       phoneNumber: registerUser.phoneNumber,
       password: registerUser.password,
       isActive: false,
+      image: registerUser.image,
     };
 
-    console.log(newUser);
+    for (var pair of formData.entries()) {
+      console.log(pair[0] + ", " + pair[1]);
+    }
 
     // axios does a post to the backend and adds the newUser to our db
     axios
-      .post("http://localhost:4000/users/add", newUser)
+      .post("http://localhost:4000/users/add", formData)
       .then((response) => {
-        setIsRegistered((prev) => !prev);
-        setRegisterUser({
-          name: "",
-          email: "",
-          phoneNumber: "",
-          password: "",
-          confirmPassword: "",
-          isActive: false,
-        });
+        // setIsRegistered((prev) => !prev);
+        // setRegisterUser({
+        //   name: "",
+        //   email: "",
+        //   phoneNumber: "",
+        //   password: "",
+        //   confirmPassword: "",
+        //   isActive: false,
+        // });
         setError("");
-        console.log(response.data);
+        console.log(response);
       })
       .catch((err) =>
         setEmailError("Email in use , please pick another email")
@@ -86,7 +102,19 @@ export default function Register() {
       <div className="register--form">
         {error && <p style={{ color: "red" }}> {error}</p>}
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} encType="multipart/form-data">
+          <br />
+          <label className="form--label" htmlFor="image">
+            Upload Image
+          </label>
+          <br />
+
+          <input
+            id="image"
+            filename="image"
+            type="file"
+            onChange={onFileChange}
+          />
           <br />
           <label className="form--label" htmlFor="name">
             NAME
@@ -166,6 +194,10 @@ export default function Register() {
           <br />
           <button className="form--button">REGISTER</button>
         </form>
+        <p>
+          {" "}
+          Already have an account? <Link to="/login"> Login</Link>
+        </p>
       </div>
     </>
   );
