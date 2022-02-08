@@ -77,7 +77,7 @@ export default function Register() {
         //   isActive: false,
         // });
         setError("");
-        console.log(response);
+        console.log(response.data);
       })
       .catch((err) =>
         setEmailError("Email in use , please pick another email")

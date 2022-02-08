@@ -9,12 +9,16 @@ export default function Member(props) {
   console.log(date);
   console.log(props.member);
   return (
-    <tr>
-      <td> {props.member.name} </td>
-      <td> {props.member.email} </td>
-      <td> {props.member.phoneNumber} </td>
-      <td> {props.member.isActive ? " ACTIVE " : " UNACTIVE"} </td>
-      <td> {date} </td>
-    </tr>
+    <>
+      <img src={props.member.image} />
+      <tr>
+        <td></td>
+        <td> {props.member.name} </td>
+        <td> {props.member.email} </td>
+        <td> {props.member.phoneNumber} </td>
+        <td> {props.member.isActive ? " ACTIVE " : " UNACTIVE"} </td>
+        <td> {date} </td>
+      </tr>
+    </>
   );
 }

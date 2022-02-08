@@ -1,19 +1,50 @@
 const router = require("express").Router();
 
+const { monke: gfs } = require("../server.js");
 let User = require("../models/user.model");
 const upload = require("../middleware/upload");
 
 // creates user
 router.route("/add").post(upload.single("image"), (req, res) => {
-  console.log(`req.body ${req.body}`);
-  console.log(`req.file ${req.file}`);
+  console.log("body: %j", req.body);
+  console.log("body: %j", req.file);
+
+  const newUser = new User({
+    name: req.body.name,
+    email: req.body.email,
+    password: req.body.password,
+    phoneNumber: req.body.phoneNumber,
+    isActive: req.body.isActive,
+    image: req.file.filename,
+  });
+
+  newUser
+    .save()
+    .then(() => res.json(" User Added"))
+    .catch((err) => res.status(400).json("Error post: " + err));
 });
 
 // gets user by email
-router.route("/:email").get((req, res) => {
-  User.findOne({ email: req.params.email })
-    .then((user) => res.json(user))
-    .catch((err) => res.status(400).json("Error: " + err));
+router.route("/:email").get(async (req, res) => {
+  const user = await User.findOne({ email: req.params.email });
+  console.log("user revi", user.image);
+  console.log("gfs", gfs().files);
+  gfs().files.findOne({ filename: user.image }, (err, file) => {
+    console.log("getting h343 !!!!");
+    if (!file || file.length === 0) {
+      return res.status(404).json(`${err} file not found`);
+    }
+
+    // if (file.contentType === "image/jpg") {
+    const readstream = gfs().createReadStream({ filename: user.image });
+    readstream.pipe(res);
+    console.log("body: %j", res);
+    // }
+  });
+
+  //   User.image = res
+  // .then((user) => res.json(user))
+  // .catch((err) => res.status(400).json("Error: " + err));
 });
 
 router.route("/").get((req, res) => {
@@ -39,5 +70,7 @@ router.route("/update/:email").post((req, res) => {
     })
     .catch((err) => response.status(400).json("Error: " + err));
 });
+
+// search for file
 
 module.exports = router;
