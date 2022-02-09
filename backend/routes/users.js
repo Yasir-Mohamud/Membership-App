@@ -62,25 +62,26 @@ router.route("/add").post(upload.single("image"), (req, res) => {
 
 // gets user by email
 router.route("/:email").get(async (req, res) => {
-  const user = await User.findOne({ email: req.params.email });
-  console.log("user revi", user.image);
-  const file = gfs
-    .find({
-      filename: user.image,
-    })
-    .toArray((err, files) => {
-      if (!files || files.length === 0) {
-        return res.status(404).json({
-          err: "no files exist",
-        });
-      }
-      gfs.openDownloadStreamByName(user.image).pipe(res);
-    });
-  user.image = res
-
-    .save()
+  User.findOne({ email: req.params.email })
     .then((user) => res.json(user))
     .catch((err) => res.status(400).json("Error: " + err));
+  //   console.log("user revi", user.image);
+  //   const file = gfs
+  //     .find({
+  //       filename: user.image,
+  //     })
+  //     .toArray((err, files) => {
+  //       if (!files || files.length === 0) {
+  //         return res.status(404).json({
+  //           err: "no files exist",
+  //         });
+  //       }
+  //       gfs.openDownloadStreamByName(user.image).pipe(res);
+  //     });
+  //   user
+  //     .save()
+  //     .then((user) => res.json(user))
+  //     .catch((err) => res.status(400).json("Error: " + err));
 });
 
 //   gfs.find({ filename: user.image }, (err, file) => {
@@ -124,5 +125,20 @@ router.route("/update/:email").post((req, res) => {
 });
 
 // search for file
+router.route("/image/:filename").get((req, res) => {
+  // console.log('id', req.params.id)
+  const file = gfs
+    .find({
+      filename: req.params.filename,
+    })
+    .toArray((err, files) => {
+      if (!files || files.length === 0) {
+        return res.status(404).json({
+          err: "no files exist",
+        });
+      }
+      gfs.openDownloadStreamByName(req.params.filename).pipe(res);
+    });
+});
 
 module.exports = router;

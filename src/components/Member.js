@@ -10,7 +10,12 @@ export default function Member(props) {
   console.log(props.member);
   return (
     <>
-      <img src={props.member.image} />
+      <img
+        src={"http://localhost:4000/users/image/" + props.member.image}
+        alt=""
+        width="200"
+        height="200"
+      />
       <tr>
         <td></td>
         <td> {props.member.name} </td>

@@ -32,6 +32,7 @@ export default function HomePage() {
       <table>
         <thead>
           <tr>
+            <th> Image</th>
             <th> NAME </th>
             <th> EMAIL </th>
             <th> PHONE NUMBER </th>
