@@ -65,40 +65,7 @@ router.route("/:email").get(async (req, res) => {
   User.findOne({ email: req.params.email })
     .then((user) => res.json(user))
     .catch((err) => res.status(400).json("Error: " + err));
-  //   console.log("user revi", user.image);
-  //   const file = gfs
-  //     .find({
-  //       filename: user.image,
-  //     })
-  //     .toArray((err, files) => {
-  //       if (!files || files.length === 0) {
-  //         return res.status(404).json({
-  //           err: "no files exist",
-  //         });
-  //       }
-  //       gfs.openDownloadStreamByName(user.image).pipe(res);
-  //     });
-  //   user
-  //     .save()
-  //     .then((user) => res.json(user))
-  //     .catch((err) => res.status(400).json("Error: " + err));
 });
-
-//   gfs.find({ filename: user.image }, (err, file) => {
-//     console.log("getting h343 !!!!");
-//     if (!file || file.length === 0) {
-//       return res.status(404).json(`${err} file not found`);
-//     }
-// console.log("gfs", );
-// if (file.contentType === "image/jpg") {
-// const readstream = gfs().createReadStream(user.image);
-// readstream.pipe(res);
-// console.log("body: %j", res);
-// }
-// });
-
-// .then((user) => res.json(user))
-// .catch((err) => res.status(400).json("Error: " + err));
 
 router.route("/").get((req, res) => {
   User.find()
