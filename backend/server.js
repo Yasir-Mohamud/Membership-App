@@ -26,10 +26,12 @@ connection.once("open", () => {
 
 // import routes
 const usersRouter = require("./routes/users");
+const adminRouter = require("./routes/admin");
 
 app.use(cors());
 app.use(express.json());
 app.use("/users", usersRouter);
+app.use("/admin", adminRouter);
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
