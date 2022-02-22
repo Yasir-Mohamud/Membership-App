@@ -1,4 +1,5 @@
 const router = require("express").Router();
+let User = require("../models/user.model");
 const multer = require("multer");
 const crypto = require("crypto");
 const path = require("path");
@@ -38,7 +39,6 @@ const storage = new GridFsStorage({
 });
 const upload = multer({ storage });
 // const { monke: gfs } = require("../server.js");
-let User = require("../models/user.model");
 
 // creates user
 router.route("/add").post(upload.single("image"), (req, res) => {
@@ -67,6 +67,7 @@ router.route("/:email").get(async (req, res) => {
     .catch((err) => res.status(400).json("Error: " + err));
 });
 
+// gets all users
 router.route("/").get((req, res) => {
   User.find()
     .then((users) => res.json(users))
@@ -91,7 +92,7 @@ router.route("/update/:email").post((req, res) => {
     .catch((err) => response.status(400).json("Error: " + err));
 });
 
-// search for file
+// search for image file
 router.route("/image/:filename").get((req, res) => {
   // console.log('id', req.params.id)
   const file = gfs
