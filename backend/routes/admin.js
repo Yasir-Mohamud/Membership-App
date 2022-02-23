@@ -29,4 +29,20 @@ router.route("/:email").delete((req, res) => {
     .catch((err) => res.json(`Admin Not Deleted! ${err} `));
 });
 
+// handles admin login
+router.route("/login").post(async (req, res) => {
+  const { email, password } = req.body;
+
+  if (!email || !password)
+    return res.status(400).json({ message: "Email and Password are required" });
+
+  const foundAdmin = await Admin.findOne({ email: email });
+  if (!foundAdmin) return res.sendStatus(401); //unauthorized
+  if (foundAdmin.password === password) {
+    res.json({ sucess: `Admin is logged in` });
+  } else {
+    res.sendStatus(400);
+  }
+});
+
 module.exports = router;

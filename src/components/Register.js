@@ -162,7 +162,7 @@ export default function Register() {
             required
           />
           <br />
-          <label className="form--label" htmlFor="password">
+          {/* <label className="form--label" htmlFor="password">
             PASSWORD
           </label>
           <br />
@@ -191,11 +191,10 @@ export default function Register() {
             onChange={handleChange}
             required
           />
-          <br />
+          <br /> */}
           <button className="form--button">REGISTER</button>
         </form>
         <p>
-          {" "}
           Already have an account? <Link to="/login"> Login</Link>
         </p>
       </div>
