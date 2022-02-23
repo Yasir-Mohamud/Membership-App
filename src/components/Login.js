@@ -11,7 +11,6 @@ export default function Login(props) {
   const navigate = useNavigate();
   const [user, setUser] = useState({
     name: "",
-    email: "",
     phoneNumber: "",
     password: "",
     isActive: false,
@@ -28,14 +27,14 @@ export default function Login(props) {
     }
   }
 
-  useEffect(() => {
-    axios
-      .post("http://localhost:4000/users/update/" + email, user)
-      .then((response) => {
-        console.log(response.data);
-        document.getElementById("loginButton").setAttribute("disabled", true);
-      });
-  }, [user.isActive]);
+  //   useEffect(() => {
+  //     axios
+  //       .post("http://localhost:4000/users/update/" + email, user)
+  //       .then((response) => {
+  //         console.log(response.data);
+  //         document.getElementById("loginButton").setAttribute("disabled", true);
+  //       });
+  //   }, [user.isActive]);
 
   function handleSubmit(e) {
     e.preventDefault();
