@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 import useAuth from "../hooks/useAuth";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
+import "./AdminLogin.css";
 
 export default function AdminLogin() {
   const [email, setEmail] = useState("");
@@ -9,7 +10,7 @@ export default function AdminLogin() {
   const [err, setErr] = useState("");
   const [sucess, setSuccess] = useState(false);
   const { setUser } = useAuth();
-  const navigate = useNavigate();
+  let navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -20,6 +21,7 @@ export default function AdminLogin() {
       });
 
       console.log(response);
+      setUser({ email, password });
       setEmail("");
       setPassword("");
       navigate("/");
@@ -29,9 +31,9 @@ export default function AdminLogin() {
   };
 
   return (
-    <div>
+    <div className="admin-login">
       <form onSubmit={handleSubmit}>
-        <label> Email </label>
+        <label htmlFor="email"> Email </label>
         <br />
         <input
           id="email"
@@ -41,7 +43,7 @@ export default function AdminLogin() {
           onChange={(e) => setEmail((prev) => e.target.value)}
         />
         <br />
-        <label> Password </label>
+        <label htmlFor="password"> Password </label>
         <br />
         <input
           id="password"
@@ -51,7 +53,7 @@ export default function AdminLogin() {
           onChange={(e) => setPassword((prev) => e.target.value)}
         />
         <br />
-        <button> LOGIN </button>
+        <button type="submit"> LOGIN </button>
       </form>
     </div>
   );
