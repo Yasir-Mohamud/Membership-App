@@ -1,9 +1,10 @@
 .register--form {
   background-color: #ffffff;
-  width: 450px;
-  height: 600px;
+  width: max-content;
+  height: max-content;
   border: solid 3px black;
   text-align: center;
+  padding: 20px;
 }
 
 .register--form--group {
@@ -17,7 +18,16 @@
   width: 400px;
   height: 50px;
   margin: 10px 10px;
+  border: solid 2px black;
+  font-size: 14pt;
+  border-radius: 5px;
+}
 
+textarea {
+  width: 400px;
+  height: 100px;
+  margin: 10px 10px;
+  border: solid 2px black;
   font-size: 14pt;
   border-radius: 5px;
 }

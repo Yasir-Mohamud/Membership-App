@@ -103,12 +103,10 @@ export default function Register() {
         {error && <p style={{ color: "red" }}> {error}</p>}
 
         <form onSubmit={handleSubmit} encType="multipart/form-data">
-          <br />
           <label className="form--label" htmlFor="image">
             Upload Image
           </label>
           <br />
-
           <input
             id="image"
             filename="image"
@@ -131,6 +129,9 @@ export default function Register() {
             required
           />
           <br />
+          <label> Date Of Birth</label>
+          <br />
+          <input /> <br />
           <label className="form--label" htmlFor="email">
             EMAIL
           </label>
@@ -162,40 +163,16 @@ export default function Register() {
             required
           />
           <br />
-          {/* <label className="form--label" htmlFor="password">
-            PASSWORD
-          </label>
+          <label> Name of Doctor</label>
           <br />
-          <input
-            className="form--input"
-            id="password"
-            type="password"
-            name="password"
-            value={registerUser.password}
-            onChange={handleChange}
-            placeholder=" example : @Test123"
-            pattern="(?=^.{8,}$)(?=.*\d)(?=.*[!@#$%^&*]+)(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$"
-            required
-          />
+          <input /> <br />
+          <label>Allergies </label>
           <br />
-          <label className="form--label" htmlFor="confirmPassword">
-            CONFIRM PASSWORD
-          </label>
-          <br />
-          <input
-            className="form--input"
-            id="confirmPassword"
-            type="password"
-            name="confirmPassword"
-            value={registerUser.confirmPassword}
-            onChange={handleChange}
-            required
-          />
-          <br /> */}
+          <textarea /> <br />
           <button className="form--button">REGISTER</button>
         </form>
         <p>
-          Already have an account? <Link to="/login"> Login</Link>
+          Already have an account? <Link to="/"> Login</Link>
         </p>
       </div>
     </>
