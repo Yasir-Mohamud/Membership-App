@@ -15,11 +15,11 @@ export default function App() {
 
       <Routes>
         <Route path="/adminLogin" element={<AdminLogin />} />
-        <Route element={<RequireAuth />}>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/register" element={<RegisterPage />} />
-          <Route path="/login" element={<Login />} />
-        </Route>
+        {/* <Route element={<RequireAuth />}> */}
+        <Route path="/" element={<HomePage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/login" element={<Login />} />
+        {/* </Route> */}
       </Routes>
     </div>
   );

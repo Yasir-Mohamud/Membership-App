@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import "./Register.css";
 import axios from "axios";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import { Link } from "react-router-dom";
 
 export default function Register() {
@@ -10,6 +12,7 @@ export default function Register() {
     phoneNumber: "",
     password: "",
     confirmPassword: "",
+    dob: new Date(),
     isActive: false,
     image: null,
   });
@@ -32,6 +35,12 @@ export default function Register() {
       ...prev,
       image: event.target.files[0],
     }));
+  }
+
+  function onChangeDate(date) {
+    setRegisterUser((prev) => {
+      return { ...prev, dob: date };
+    });
   }
 
   function handleSubmit(e) {
@@ -108,6 +117,7 @@ export default function Register() {
           </label>
           <br />
           <input
+            className="form--input"
             id="image"
             filename="image"
             type="file"
@@ -131,7 +141,11 @@ export default function Register() {
           <br />
           <label> Date Of Birth</label>
           <br />
-          <input /> <br />
+          <DatePicker
+            selected={registerUser.dob}
+            onChange={onChangeDate}
+          />{" "}
+          <br />
           <label className="form--label" htmlFor="email">
             EMAIL
           </label>
@@ -171,9 +185,6 @@ export default function Register() {
           <textarea /> <br />
           <button className="form--button">REGISTER</button>
         </form>
-        <p>
-          Already have an account? <Link to="/"> Login</Link>
-        </p>
       </div>
     </>
   );
